@@ -4,9 +4,18 @@ const debug =require('debug');
 const Joi = require('joi');
 const express = require('express');
 const app = express();
-app.use(express.json());
 const genres = require('./routes/genres');
+const home = require('./routes/home');
+
+app.use(express.json());
+app.use('/api/genres',genres);
+app.use('/',home);
+
+
 const port=3000;
+
+app.set('view engine','pug');
+app.set('views','./views');//default path
 
 console.log(app.get('tiny'));
 
@@ -14,7 +23,6 @@ if (app.get('env')==='development'){
     app.use(morgan('dev'));
     debug ('morgan enabled...');
 }
-app.use('/api/genres',genres);
 
 //Listen to port
 app.listen(port, ()=>{
