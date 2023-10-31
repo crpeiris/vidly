@@ -1,4 +1,5 @@
 // Build a web server on port 3000
+const mongoose = require('mongoose');
 const morgan =require('morgan');
 const debug =require('debug');
 const Joi = require('joi');
@@ -7,22 +8,30 @@ const app = express();
 const genres = require('./routes/genres');
 const home = require('./routes/home');
 
+mongoose.connect('mongodb://127.0.0.1/vidly')
+    .then(()=> console.log('Connected Vidly databae'))
+    .catch(err=> console.error('Could not connet to Vidly Database'));
+
 app.use(express.json());
 app.use('/api/genres',genres);
 app.use('/',home);
-
 
 const port=3000;
 
 app.set('view engine','pug');
 app.set('views','./views');//default path
 
-console.log(app.get('tiny'));
+//console.log(app.get('tiny'));
 
+
+/*/Morgon error log 
 if (app.get('env')==='development'){
     app.use(morgan('dev'));
     debug ('morgan enabled...');
 }
+*/
+
+
 
 //Listen to port
 app.listen(port, ()=>{
