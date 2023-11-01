@@ -6,6 +6,7 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
+const customers =require('./routes/customers');
 const home = require('./routes/home');
 
 mongoose.connect('mongodb://127.0.0.1/vidly')
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://127.0.0.1/vidly')
 
 app.use(express.json());
 app.use('/api/genres',genres);
+app.use('/api/customres',customers);
 app.use('/',home);
 
 const port=3000;
