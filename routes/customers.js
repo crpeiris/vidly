@@ -3,7 +3,7 @@ const router = express.Router();
 const {Customer,validateCustomer}= require('../models/customer');
 
 router.get('/', async (req,res) => {
-    const customers = await Customer.find().sort('name');
+    const customers = await Customer.find();
     res.send(customers);
 });
 

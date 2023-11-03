@@ -7,6 +7,8 @@ const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
 const customers =require('./routes/customers');
+const movies =require('./routes/movies');
+const rentals = require('./routes/rentals');
 const home = require('./routes/home');
 
 mongoose.connect('mongodb://127.0.0.1/vidly')
@@ -14,9 +16,11 @@ mongoose.connect('mongodb://127.0.0.1/vidly')
     .catch(err=> console.error('Could not connet to Vidly Database'));
 
 app.use(express.json());
-app.use('/api/genres',genres);
-app.use('/api/customres',customers);
-app.use('/',home);
+app.use('/api/genres', genres);
+app.use('/api/customers', customers);
+app.use('/api/movies', movies);
+app.use('/api/rentals', rentals);
+app.use('/', home);
 
 const port=3000;
 
