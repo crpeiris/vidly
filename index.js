@@ -1,6 +1,7 @@
 // Build a web server on port 3000
 const mongoose = require('mongoose');
 const morgan =require('morgan');
+const config = require('config');
 const debug =require('debug');
 const Joi = require('joi');
 const express = require('express');
@@ -12,6 +13,11 @@ const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const home = require('./routes/home');
+
+if (!config.get('jwtPrivateKey')){
+    console.error('FATAL ERROR: jwt privatekey not defined.');
+    process.exit(1);
+}
 
 mongoose.connect('mongodb://127.0.0.1/vidly')
     .then(()=> console.log('Connected Vidly databae'))
