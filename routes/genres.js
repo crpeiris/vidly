@@ -1,15 +1,17 @@
+const auth =  require('../middleware/auth');
+const admin =  require('../middleware/admin');
 const express =require('express');
 const router = express.Router();
 const { Genre , validateGenre } = require ('../models/genre');
 
- router.get('/',async (req,res)=>{
+ router.get('/', async (req,res)=>{
     const genres = await  Genre.find().sort('name');
     res.send(genres);
     // short await res.send(Genre.find());
 });
 
 //Creating a Genre
-router.post('/',async (req,res)=>{
+router.post('/', auth ,async (req,res)=>{
    const result = validateGenre(req.body);
    if(result.error){
         res.status(400).send(result.error);
@@ -21,7 +23,7 @@ router.post('/',async (req,res)=>{
     });
 
 //Update Genre Old error if id not correct
-router.put('/:id', async (req,res)=>{
+router.put('/:id',auth , async (req,res)=>{
     //Validate Genre name
     const result = validateGenre(req.body);
         if (result.error) return res.status(404).send(result.error.details[0].message);
@@ -38,7 +40,7 @@ router.put('/:id', async (req,res)=>{
 });
 
 //Delete a Genre
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id', [auth, admin]   , async (req,res)=>{
    //Search Genre matching id
    const genre = await Genre.findByIdAndRemove(req.params.id);
    if (!genre) {
