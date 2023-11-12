@@ -14,11 +14,10 @@ const genreSchema = new mongoose.Schema({
  //This is new in this version, now GenreSchema is seprate and can be reused 
  const Genre = mongoose.model('Genre', genreSchema);
 
-
  //functions for Genre validation
 function validateGenre(genre){
     const schema = Joi.object({
-        name: Joi.string().min(3).required()
+        name: Joi.string().min(5).required()
     });
     return schema.validate(genre);
 };
